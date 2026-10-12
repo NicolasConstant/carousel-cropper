@@ -16,6 +16,7 @@ A specification is considered "properly defined" if it contains:
 - A clear **goal** (what problem it solves)
 - A defined **scope** (what is in and out of scope)
 - At least one **acceptance criterion** (how to know it is done)
+- A complete **Dependencies** list: every external package, library, tool, or internal step/spec the implementation relies on. If any dependency is needed, it MUST be listed here. Use "None" only when the step truly has no dependencies.
 
 If `$ARGUMENTS` is vague, incomplete, or ambiguous, ask the user for more details before proceeding.
 
@@ -35,7 +36,7 @@ development-steps.md file must follow this structure:
   1. <criterion>
   2. <criterion>
 - **Related Files**: <paths to relevant code>
-- **Dependencies**: <task numbers or spec names this depends on, or "None">
+- **Dependencies**: <task numbers, spec names, package/library names, tools, or "None" — every dependency the implementation needs MUST be listed here>
 - **Priority**: <High / Medium / Low>
 - **Created**: <YYYY-MM-DD>
 - **Notes**: <any additional context>
@@ -58,3 +59,4 @@ development-steps.md file must follow this structure:
 - Always update `implementation-tasks.md` when adding or modifying a spec.
 - **You may create or modify spec files.**
 - **Only add new tasks to `implementation-tasks.md`; do not modify existing tasks.**
+- **Dependencies are binding:** every external package, library, tool, or internal step/spec required by the step MUST be captured in the `Dependencies` field before the spec is finalized. Do not leave this field blank or vague if a dependency exists.
