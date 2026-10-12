@@ -40,8 +40,6 @@ development-steps.md file must follow this structure:
 - **Related Files**: <paths to relevant code>
 - **Internal dependencies**: <step numbers, spec names, or other internal items — every internal dependency the implementation needs MUST be listed here; use "None" when there are none>
 - **External dependencies**: <package/library names, tools, services, or other external items — every external dependency the implementation needs MUST be listed here; use "None" when there are none>
-- **Priority**: <High / Medium / Low>
-- **Created**: <YYYY-MM-DD>
 - **Notes**: <any additional context>
 ```
 

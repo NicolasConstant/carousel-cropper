@@ -3,21 +3,21 @@ description: Implement the specified development step
 ---
 
 # Purpose
-Implement a `[TODO]` step from `./SPECS/implementation-tasks.md` and update its status.
+Implement a `[TODO]` step from `./SPECS/development-steps.md` and update its status.
 
 # Behavior
 
-## 1. Determine which task to implement
+## 1. Determine which step to implement
 - Read `./SPECS/development-steps.md`
 - Find a step named `# Step $ARGUMENTS`
-- Verify there is a matching `[TODO]` task. If not, report to the user and wait for instructions.
-- Display the selected task to the user and ask for confirmation.
+- If no $ARGUMENTS provided, find the first [TODO] step available in the list, with the lower step number
+- Start implementation with the found step. If not found step, warn user.
 
 ## 2. Read the specification
 Before writing any code, read the related step content.
 You MUST NOT modify specification files.
 
-## 3. Implement the task
+## 3. Implement the step
 - Follow the project's existing coding style and conventions.
 - Make the minimal changes necessary to satisfy the acceptance criteria.
 - Before installing or using any external package, library, tool, or internal module, verify it is explicitly listed in the step's **Internal dependencies** or **External dependencies** field.
@@ -29,14 +29,14 @@ You MUST NOT modify specification files.
 - If the project has a build step, run it to ensure no compilation errors.
 
 ## 5. Update the tracker
-Once the task is fully implemented and verified, change its status in `./SPECS/development-steps.md` from `[TODO]` to `[DONE]`.
+Once the step is fully implemented and verified, change its status in `./SPECS/development-steps.md` from `[TODO]` to `[DONE]`.
 
 ## 6. Rules
-- Do not modify files outside the scope of the task.
+- Do not modify files outside the scope of the step.
 - Do not modify specification files; they are read-only during implementation (unless being in the case #7).
 - If a spec file is missing or unclear, stop and ask the user — do not guess.
 - Only install and use dependencies that are explicitly listed in the step's `Internal dependencies` or `External dependencies` fields. Unlisted dependencies MUST NOT be introduced.
-- Always update `development-steps.md` after completing a task.
+- Always update `development-steps.md` after completing a step.
 
 ## 7. After implementation corrections
 After implementing the specs, in the case the user request modification / correction of the implementation:
