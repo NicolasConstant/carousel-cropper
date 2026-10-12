@@ -1,5 +1,5 @@
 # Step 1
-# Status: [TODO]
+# Status: [DONE]
 ## Initialize Angular Project
 
 - **Goal**: Initialize a new Angular project named "Carousel Cropper" using the latest stable Angular version compatible with Node 26.7.0. The template used MUST be SASS instead of CSS. The project MUST be stored at the root folder of this reporitory.
