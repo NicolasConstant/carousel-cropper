@@ -16,7 +16,9 @@ A specification is considered "properly defined" if it contains:
 - A clear **goal** (what problem it solves)
 - A defined **scope** (what is in and out of scope)
 - At least one **acceptance criterion** (how to know it is done)
-- A complete **Dependencies** list: every external package, library, tool, or internal step/spec the implementation relies on. If any dependency is needed, it MUST be listed here. Use "None" only when the step truly has no dependencies.
+- Complete dependency lists, split into two categories:
+  - **Internal dependencies**: task/step numbers, spec names, or other internal items the implementation relies on. Use "None" only when there are truly no internal dependencies.
+  - **External dependencies**: external packages, libraries, tools, or services the implementation relies on. Use "None" only when there are truly no external dependencies.
 
 If `$ARGUMENTS` is vague, incomplete, or ambiguous, ask the user for more details before proceeding.
 
@@ -36,13 +38,14 @@ development-steps.md file must follow this structure:
   1. <criterion>
   2. <criterion>
 - **Related Files**: <paths to relevant code>
-- **Dependencies**: <task numbers, spec names, package/library names, tools, or "None" — every dependency the implementation needs MUST be listed here>
+- **Internal dependencies**: <step numbers, spec names, or other internal items — every internal dependency the implementation needs MUST be listed here; use "None" when there are none>
+- **External dependencies**: <package/library names, tools, services, or other external items — every external dependency the implementation needs MUST be listed here; use "None" when there are none>
 - **Priority**: <High / Medium / Low>
 - **Created**: <YYYY-MM-DD>
 - **Notes**: <any additional context>
 ```
 
-## 4. Transform the request to a proper developmeent Step
+## 4. Transform the request to a proper development Step
 
 - Determine the Step number by incrementing the last documented step, if the file is empty, start with '1'
 - Add the new step to the development-steps.md file
@@ -59,4 +62,4 @@ development-steps.md file must follow this structure:
 - Always update `implementation-tasks.md` when adding or modifying a spec.
 - **You may create or modify spec files.**
 - **Only add new tasks to `implementation-tasks.md`; do not modify existing tasks.**
-- **Dependencies are binding:** every external package, library, tool, or internal step/spec required by the step MUST be captured in the `Dependencies` field before the spec is finalized. Do not leave this field blank or vague if a dependency exists.
+- **Dependencies are binding:** every internal step/spec and every external package, library, tool, or service required by the step MUST be captured in the `Internal dependencies` and `External dependencies` fields before the spec is finalized. Do not leave either field blank or vague if a dependency exists.
