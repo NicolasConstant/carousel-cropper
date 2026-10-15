@@ -12,6 +12,8 @@ const OUTPUT_HEIGHT = 1350;
 })
 export class App {
   protected readonly acceptedExtensions = ACCEPTED_EXTENSIONS.join(',');
+  protected readonly acceptedExtensionsDisplay = ACCEPTED_EXTENSIONS.join(', ');
+  protected readonly currentYear = new Date().getFullYear();
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly imageUrl = signal<string | null>(null);
   protected readonly hasImage = signal(false);

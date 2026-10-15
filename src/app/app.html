@@ -1,42 +1,152 @@
-<main class="main">
-  <h1>Carousel Cropper</h1>
+<header class="header">
+  <div class="container header__inner">
+    <a href="#" class="logo">
+      <span class="logo__mark"></span>
+      <span class="logo__text">Carousel Cropper</span>
+    </a>
+    <a href="#crop-tool" class="header__cta">Get started</a>
+  </div>
+</header>
 
-  <input
-    #fileInput
-    type="file"
-    [accept]="acceptedExtensions"
-    (change)="onFileSelected($event)"
-    class="file-input"
-  />
-
-  @if (errorMessage()) {
-    <p class="error">{{ errorMessage() }}</p>
-  }
-
-  @if (hasImage()) {
-    <div class="crop-container">
-      <div
-        #frame
-        class="crop-frame"
-        (mousedown)="onMouseDown($event)"
-        (touchstart)="onTouchStart($event)"
-        (window:mousemove)="onMouseMove($event)"
-        (window:touchmove)="onTouchMove($event)"
-        (window:mouseup)="onDragEnd()"
-        (window:touchend)="onDragEnd()"
-      >
-        <img
-          #image
-          [src]="imageUrl()"
-          (load)="onImageLoad()"
-          alt="Image to crop"
-          class="crop-image"
-          draggable="false"
-        />
-      </div>
-      <button class="download-button" (click)="downloadCrop()">Download Crop</button>
+<main>
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="eyebrow">Simple. Fast. Free.</span>
+      <h1 class="hero__title">Carousel Cropper</h1>
+      <p class="hero__subtitle">
+        Crop your images to the perfect 1080×1350 carousel format in seconds.
+        Drag, position, and download — no account required.
+      </p>
+      <a href="#crop-tool" class="button button--primary">Start cropping</a>
     </div>
-  }
+  </section>
 
-  <canvas #canvas class="crop-canvas"></canvas>
+  <section class="features">
+    <div class="container features__inner">
+      <p class="features__intro">Everything you need. Nothing you don’t.</p>
+      <div class="features__grid">
+        <article class="feature-card">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="4" />
+              <path d="M3 9h18M9 21V9" />
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Perfect aspect ratio</h3>
+          <p class="feature-card__description">
+            A fixed 1080×1350 crop frame ensures your visuals are ready for carousel posts.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Drag to position</h3>
+          <p class="feature-card__description">
+            Pan and reposition your image inside the frame with mouse or touch until it looks right.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Instant download</h3>
+          <p class="feature-card__description">
+            Generate a high-resolution crop and save it directly to your device in one click.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="crop-tool" class="tool">
+    <div class="container tool__inner">
+      <div class="tool__header">
+        <span class="eyebrow">The crop tool</span>
+        <h2 class="tool__title">Crop your image</h2>
+        <p class="tool__description">
+          Upload an image, drag it into position, then download your 1080×1350 crop.
+        </p>
+      </div>
+
+      <div class="tool__card">
+        <input
+          #fileInput
+          type="file"
+          [accept]="acceptedExtensions"
+          (change)="onFileSelected($event)"
+          class="file-input"
+        />
+
+        @if (!hasImage()) {
+          <button type="button" class="upload-zone" (click)="fileInput.click()">
+            <div class="upload-zone__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </div>
+            <p class="upload-zone__label">Click to upload an image</p>
+            <p class="upload-zone__hint">
+              Supports {{ acceptedExtensionsDisplay }}
+            </p>
+          </button>
+        }
+
+        @if (errorMessage()) {
+          <p class="error" role="alert">{{ errorMessage() }}</p>
+        }
+
+        @if (hasImage()) {
+          <div class="crop-container">
+            <div
+              #frame
+              class="crop-frame"
+              (mousedown)="onMouseDown($event)"
+              (touchstart)="onTouchStart($event)"
+              (window:mousemove)="onMouseMove($event)"
+              (window:touchmove)="onTouchMove($event)"
+              (window:mouseup)="onDragEnd()"
+              (window:touchend)="onDragEnd()"
+            >
+              <img
+                #image
+                [src]="imageUrl()"
+                (load)="onImageLoad()"
+                alt="Image to crop"
+                class="crop-image"
+                draggable="false"
+              />
+            </div>
+            <div class="crop-actions">
+              <button type="button" class="button button--secondary" (click)="fileInput.click()">
+                Choose another image
+              </button>
+              <button type="button" class="button button--primary" (click)="downloadCrop()">
+                Download crop
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__copyright">© {{ currentYear }} Carousel Cropper. Built for creators.</p>
+  </div>
+</footer>
+
+<canvas #canvas class="crop-canvas"></canvas>

@@ -55,3 +55,23 @@
 - **Internal dependencies**: Step 1 (Initialize Angular Project)
 - **External dependencies**: Angular framework, HTML5 File API, HTML5 Canvas API
 - **Notes**: The exact list of accepted extensions and output format/quality should be finalized before implementation. This step defines the first user-facing feature of the Carousel Cropper app.
+
+# Step 4
+# Status: [DONE]
+## Design the Website Using Cobalt as Inspiration
+
+- **Goal**: Redesign the Carousel Cropper web application interface and landing experience using https://joincobalt.com as visual inspiration, creating a modern, clean, conversion-focused design with a cohesive typography, color palette, spacing, and component system.
+- **Scope**:
+  - In scope: defining a visual design system (colors, typography, spacing, border radius, shadows), creating a landing-page-style hero section with a headline, subheadline, and primary call-to-action, designing a header/navigation and footer, adding feature-highlight sections, applying the design system to the existing image crop tool UI (file input, crop frame, download button), and ensuring the layout is responsive across desktop and mobile viewports.
+  - Out of scope: implementing new functional features beyond the existing crop behavior, backend/server functionality, multi-page routing, complex animation libraries, and creating original brand/logo assets (placeholders are acceptable).
+- **Acceptance Criteria**:
+  1. A design system is documented in `SPECS/` defining colors, typography, spacing, and reusable component patterns inspired by Cobalt.
+  2. The existing landing/app page is visually redesigned to include a hero section, feature highlights, and a clear primary CTA.
+  3. The existing image crop tool UI (file input, crop frame, download button) is restyled using the new design system.
+  4. The layout is responsive and renders correctly on both desktop and mobile viewports.
+  5. All styling uses SCSS, following the project conventions.
+  6. The design remains consistent across all visible elements.
+- **Related Files**: `src/app/app.html`, `src/app/app.scss`, `src/app/app.ts`, `src/styles.scss`, `public/`
+- **Internal dependencies**: Step 1 (Initialize Angular Project), Step 3 (Image Selection and Crop to 1080x1350)
+- **External dependencies**: Angular framework, SCSS, design reference https://joincobalt.com
+- **Notes**: The Cobalt website features a clean, modern fintech aesthetic with bold headlines, ample whitespace, rounded UI elements, card-based feature sections, and clear CTAs. The Carousel Cropper design should adapt these patterns to an image-cropping tool context.
