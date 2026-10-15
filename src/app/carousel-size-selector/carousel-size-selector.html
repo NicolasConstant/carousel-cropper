@@ -1,0 +1,17 @@
+<div class="carousel-size">
+  <span class="carousel-size__label">Carousel size</span>
+  <div class="carousel-size__options" role="radiogroup" aria-label="Carousel size">
+    @for (size of carouselSizes; track size) {
+      <button
+        type="button"
+        class="carousel-size__option"
+        [class.carousel-size__option--active]="selectedSize === size"
+        [attr.aria-checked]="selectedSize === size"
+        role="radio"
+        (click)="selectSize(size)"
+      >
+        {{ size }}
+      </button>
+    }
+  </div>
+</div>

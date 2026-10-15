@@ -176,3 +176,25 @@
 - **Internal dependencies**: Step 1 (Initialize Angular Project), Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 6 (Add Drag-and-Drop Image Upload to Selector Zone), Step 7 (Add Close Button to Crop Frame), Step 8 (Add Carousel Size Selection and ZIP Export)
 - **External dependencies**: Angular framework, JSZip library, HTML5 Canvas API, HTML5 File API, HTML5 FileReader API, HTML5 Drag and Drop API
 - **Notes**: Keep the component interface simple (no required inputs/outputs unless needed). The existing `viewChild`-based approach and signal state should be preserved inside the new component. Update or move relevant unit tests from `app.spec.ts` to a new `crop-tool.spec.ts` as appropriate.
+
+# Step 10
+# Status: [DONE]
+## Extract Carousel Size Selector to Its Own Angular Component
+
+- **Goal**: Move the carousel size selector UI (sizes 1–5, active state, and accessibility markup) out of `CropToolComponent` into a dedicated, reusable standalone Angular component to improve separation of concerns and testability while preserving existing behavior.
+- **Scope**:
+  - In scope: creating a new standalone component (e.g., `CarouselSizeSelectorComponent`) under `src/app/carousel-size-selector/`; moving the selector template markup from `src/app/crop-tool/crop-tool.html`, the selector-specific SCSS from `src/app/crop-tool/crop-tool.scss`, and the size-options constant from `src/app/crop-tool/crop-tool.ts` into the new component; defining a minimal input/output interface (e.g., `selectedSize` input and `sizeChange` output); updating `CropToolComponent` to import, render, and bind to the new component.
+  - Out of scope: changing the available sizes (1–5) or default size, modifying crop/pan/download behavior, altering the design system, adding routing, or creating shared services.
+- **Acceptance Criteria**:
+  1. A new standalone `CarouselSizeSelectorComponent` exists with its own `.ts`, `.html`, and `.scss` files in `src/app/carousel-size-selector/`.
+  2. The component renders a `role="radiogroup"` control with options 1 through 5 and visually indicates the active option using the existing design system styles.
+  3. The component exposes its selected value via an `@Input()` (or signal-based input) and notifies changes via an `@Output()` (or output), keeping the component presentational.
+  4. `CropToolComponent` replaces its inline carousel size selector markup with the new component and continues to own the `carouselSize` state used by the crop frame and download logic.
+  5. All existing carousel size selector behavior remains unchanged: default selection is 1, clicking an option updates the crop frame width, and the active option is clearly styled.
+  6. The new component and updated `CropToolComponent` follow the documented design system and the project's BEM/SCSS nesting conventions.
+  7. `ng build` completes successfully and `ng test` passes after the refactor.
+  8. Unit tests for `CarouselSizeSelectorComponent` are added or existing tests are updated to cover selection changes and active-state rendering.
+- **Related Files**: `src/app/crop-tool/crop-tool.html`, `src/app/crop-tool/crop-tool.ts`, `src/app/crop-tool/crop-tool.scss`, `src/app/crop-tool/crop-tool.spec.ts`, `src/app/carousel-size-selector/`
+- **Internal dependencies**: Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 8 (Add Carousel Size Selection and ZIP Export), Step 9 (Extract Crop Tool into a Dedicated Angular Component)
+- **External dependencies**: Angular framework
+- **Notes**: Keep the selector component purely presentational; the `carouselSize` signal and logic that drives the crop frame and ZIP export should remain in `CropToolComponent`. The exact input/output names can be finalized before implementation, but the component must not introduce a new external dependency.

@@ -48,23 +48,10 @@
 
       @if (hasImage()) {
         <div class="crop-container">
-          <div class="carousel-size">
-            <span class="carousel-size__label">Carousel size</span>
-            <div class="carousel-size__options" role="radiogroup" aria-label="Carousel size">
-              @for (size of carouselSizes; track size) {
-                <button
-                  type="button"
-                  class="carousel-size__option"
-                  [class.carousel-size__option--active]="carouselSize() === size"
-                  [attr.aria-checked]="carouselSize() === size"
-                  role="radio"
-                  (click)="setCarouselSize(size)"
-                >
-                  {{ size }}
-                </button>
-              }
-            </div>
-          </div>
+          <app-carousel-size-selector
+            [selectedSize]="carouselSize()"
+            (sizeChange)="setCarouselSize($event)"
+          ></app-carousel-size-selector>
 
           <div
             #frame

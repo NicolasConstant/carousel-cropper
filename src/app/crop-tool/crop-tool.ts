@@ -1,5 +1,6 @@
 import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import JSZip from 'jszip';
+import { CarouselSizeSelectorComponent } from '../carousel-size-selector/carousel-size-selector';
 
 const ACCEPTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp'];
 const OUTPUT_WIDTH = 1080;
@@ -8,7 +9,7 @@ const MIN_CAROUSEL_SIZE = 1;
 const MAX_CAROUSEL_SIZE = 5;
 
 @Component({
-  imports: [],
+  imports: [CarouselSizeSelectorComponent],
   selector: 'app-crop-tool',
   styleUrl: './crop-tool.scss',
   templateUrl: './crop-tool.html',
@@ -16,10 +17,6 @@ const MAX_CAROUSEL_SIZE = 5;
 export class CropToolComponent {
   protected readonly acceptedExtensions = ACCEPTED_EXTENSIONS.join(',');
   protected readonly acceptedExtensionsDisplay = ACCEPTED_EXTENSIONS.join(', ');
-  protected readonly carouselSizes = Array.from(
-    { length: MAX_CAROUSEL_SIZE - MIN_CAROUSEL_SIZE + 1 },
-    (_, i) => i + MIN_CAROUSEL_SIZE
-  );
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly imageUrl = signal<string | null>(null);
   protected readonly hasImage = signal(false);
