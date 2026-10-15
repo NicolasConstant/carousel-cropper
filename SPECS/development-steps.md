@@ -115,3 +115,22 @@
 - **Internal dependencies**: Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention)
 - **External dependencies**: Angular framework, HTML5 Drag and Drop API, HTML5 File API, HTML5 FileReader API
 - **Notes**: Reuse the existing `ACCEPTED_EXTENSIONS` constant and `onFileSelected` validation logic where possible. Consider using a small CSS modifier class (e.g., `.upload-zone--active`) for the drag-over state, nested under `.upload-zone` per the BEM convention.
+
+# Step 7
+# Status: [DONE]
+## Add Close Button to Crop Frame
+
+- **Goal**: Provide users with a clear, one-click way to remove the loaded image and return to the upload zone by adding an X close button in the top-right corner of the crop frame.
+- **Scope**:
+  - In scope: rendering a close/clear button when an image is loaded, positioning it in the top-right corner of the crop frame, clearing the loaded image and returning to the upload zone on click, resetting related image state, ensuring the button is accessible.
+  - Out of scope: modifying crop or pan behavior, changing download logic, altering accepted file formats, and adding animations beyond existing project conventions.
+- **Acceptance Criteria**:
+  1. When an image is loaded, an X (close) button is visible in the top-right corner of the crop frame.
+  2. Clicking the close button removes the loaded image and returns the user to the upload zone.
+  3. The close button follows the documented design system and the project's BEM/SCSS nesting conventions.
+  4. The close button is keyboard-focusable and has a descriptive accessible label (e.g., `aria-label="Remove image"`).
+  5. Existing drag-to-pan, download, re-upload, and drag-and-drop behaviors continue to work unchanged after the close button is added.
+- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.scss`, `SPECS/design-system.md`
+- **Internal dependencies**: Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 6 (Add Drag-and-Drop Image Upload to Selector Zone)
+- **External dependencies**: Angular framework, HTML5 File API
+- **Notes**: The close button should be visually distinct and not obstruct the crop area. Consider an icon-only circular button styled with the existing color tokens, and place it absolutely within the crop frame container.

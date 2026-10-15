@@ -187,6 +187,13 @@ export class App {
     this.isDragging = false;
   }
 
+  closeImage(event: MouseEvent): void {
+    event.stopPropagation();
+    this.resetImage();
+    this.errorMessage.set(null);
+    this.fileInput().nativeElement.value = '';
+  }
+
   private updateImageTransform(): void {
     const img = this.image().nativeElement;
     img.style.width = `${this.naturalWidth * this.displayScale}px`;
