@@ -75,3 +75,22 @@
 - **Internal dependencies**: Step 1 (Initialize Angular Project), Step 3 (Image Selection and Crop to 1080x1350)
 - **External dependencies**: Angular framework, SCSS, design reference https://joincobalt.com
 - **Notes**: The Cobalt website features a clean, modern fintech aesthetic with bold headlines, ample whitespace, rounded UI elements, card-based feature sections, and clear CTAs. The Carousel Cropper design should adapt these patterns to an image-cropping tool context.
+
+# Step 5
+# Status: [DONE]
+## Enforce SCSS BEM Nesting Convention
+
+- **Goal**: Refactor the project's SCSS so BEM-style modifiers and elements are nested inside their base block using the parent selector (e.g., `.button { &--primary { ... } }` and `.header { &__inner { ... } }`), nesting as much as possible while preserving computed styles.
+- **Scope**:
+  - In scope: all `.scss` files in the project (`src/styles.scss`, `src/app/app.scss`, and any future component styles), converting top-level BEM modifier and element selectors into nested `&--*` and `&__*` selectors.
+  - Out of scope: changing CSS custom properties, colors, layout values, component behavior, TypeScript or HTML source files, or introducing new components.
+- **Acceptance Criteria**:
+  1. Every BEM modifier class (e.g., `.button--primary`, `.button--secondary`) is nested inside its block selector as `&--primary` / `&--secondary`.
+  2. Every BEM element class (e.g., `.header__inner`, `.hero__title`, `.feature-card__icon`) is nested inside its block selector as `&__inner`, `&__title`, `&__icon`, etc.
+  3. No separate top-level selectors exist for modifiers or elements that can be nested under their parent block.
+  4. The existing styling output and visual behavior remain unchanged after refactoring.
+  5. The project still builds (`ng build`) and tests pass (`ng test`) after the SCSS changes.
+- **Related Files**: `src/styles.scss`, `src/app/app.scss`
+- **Internal dependencies**: Step 4 (Design the Website Using Cobalt as Inspiration)
+- **External dependencies**: Sass compiler (provided by the Angular CLI build pipeline)
+- **Notes**: Apply nesting consistently but avoid invalid over-nesting; keep `:host`, media queries, keyframes, and pseudo-class nesting valid SCSS. If a linter is added later, update this spec and `AGENTS.md` conventions accordingly.
