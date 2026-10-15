@@ -157,3 +157,22 @@
 - **Internal dependencies**: Step 1 (Initialize Angular Project), Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 6 (Add Drag-and-Drop Image Upload to Selector Zone), Step 7 (Add Close Button to Crop Frame)
 - **External dependencies**: Angular framework, HTML5 Canvas API, HTML5 File API, JSZip library
 - **Notes**: The combined workspace for size 5 is 5400×1350 pixels. Consider a responsive display strategy for very wide workspaces (e.g., scaling the preview while keeping output resolution fixed). The exact selector control style should follow the established design system; a segmented button group is recommended. The output image format and quality should be finalized before implementation.
+
+# Step 9
+# Status: [DONE]
+## Extract Crop Tool into a Dedicated Angular Component
+
+- **Goal**: Move the image crop tool (upload zone, carousel size selector, crop frame, close button, and download actions) out of the monolithic `App` component into a standalone, reusable Angular component, improving separation of concerns and maintainability while preserving all existing behavior.
+- **Scope**:
+  - In scope: creating a new standalone component (e.g., `CropToolComponent`) under `src/app/crop-tool/`; moving the relevant template markup from `src/app/app.html`, the crop-specific TypeScript logic from `src/app/app.ts`, and the crop-specific SCSS from `src/app/app.scss` into the new component; updating `App` to import and render the new component; keeping the page shell (header, hero, features, footer) in `App`.
+  - Out of scope: changing crop/pan/download behavior, modifying the design system, adding routing, creating shared services, or changing existing acceptance criteria for earlier steps.
+- **Acceptance Criteria**:
+  1. A new standalone `CropToolComponent` exists with its own `.ts`, `.html`, and `.scss` files in `src/app/crop-tool/`.
+  2. All crop-tool UI and logic previously in `App` is removed from `App` and lives inside `CropToolComponent`.
+  3. The main page continues to render the crop tool and all existing functionality works unchanged: click-to-upload, drag-and-drop upload, file extension validation, drag/pan positioning, carousel size selection, close/clear image, single-image download, and ZIP carousel export.
+  4. The new component follows the documented design system and the project's BEM/SCSS nesting conventions.
+  5. `ng build` completes successfully and `ng test` passes after the refactor.
+- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.scss`, `src/app/app.spec.ts`, `src/app/crop-tool/`, `SPECS/design-system.md`
+- **Internal dependencies**: Step 1 (Initialize Angular Project), Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 6 (Add Drag-and-Drop Image Upload to Selector Zone), Step 7 (Add Close Button to Crop Frame), Step 8 (Add Carousel Size Selection and ZIP Export)
+- **External dependencies**: Angular framework, JSZip library, HTML5 Canvas API, HTML5 File API, HTML5 FileReader API, HTML5 Drag and Drop API
+- **Notes**: Keep the component interface simple (no required inputs/outputs unless needed). The existing `viewChild`-based approach and signal state should be preserved inside the new component. Update or move relevant unit tests from `app.spec.ts` to a new `crop-tool.spec.ts` as appropriate.
