@@ -17,6 +17,7 @@ export class App {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly imageUrl = signal<string | null>(null);
   protected readonly hasImage = signal(false);
+  protected readonly isDragOver = signal(false);
 
   private readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
   private readonly frame = viewChild.required<ElementRef<HTMLDivElement>>('frame');
@@ -33,10 +34,56 @@ export class App {
   private dragStartY = 0;
   private dragStartImageX = 0;
   private dragStartImageY = 0;
+  private dragOverCount = 0;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
+    this.processFile(file);
+
+    if (this.errorMessage()) {
+      input.value = '';
+    }
+  }
+
+  onDragEnter(event: DragEvent): void {
+    event.preventDefault();
+    this.dragOverCount++;
+    this.isDragOver.set(true);
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.dragOverCount--;
+    if (this.dragOverCount <= 0) {
+      this.dragOverCount = 0;
+      this.isDragOver.set(false);
+    }
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.dragOverCount = 0;
+    this.isDragOver.set(false);
+
+    const file = event.dataTransfer?.files?.[0];
+    this.processFile(file);
+
+    const input = this.fileInput().nativeElement;
+    if (this.errorMessage()) {
+      input.value = '';
+    } else if (file) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      input.files = dataTransfer.files;
+    }
+  }
+
+  private processFile(file: File | undefined): void {
     this.errorMessage.set(null);
 
     if (!file) {
@@ -49,7 +96,6 @@ export class App {
         `Unsupported file type. Please select one of: ${ACCEPTED_EXTENSIONS.join(', ')}`
       );
       this.resetImage();
-      input.value = '';
       return;
     }
 

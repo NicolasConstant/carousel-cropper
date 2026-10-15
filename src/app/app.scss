@@ -363,6 +363,11 @@
     outline-offset: 2px;
   }
 
+  &--active {
+    border-color: var(--cc-primary);
+    background-color: rgba(15, 98, 254, 0.04);
+  }
+
   &__icon {
     width: 3rem;
     height: 3rem;

@@ -88,7 +88,16 @@
         />
 
         @if (!hasImage()) {
-          <button type="button" class="upload-zone" (click)="fileInput.click()">
+          <button
+            type="button"
+            class="upload-zone"
+            [class.upload-zone--active]="isDragOver()"
+            (click)="fileInput.click()"
+            (dragenter)="onDragEnter($event)"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+          >
             <div class="upload-zone__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

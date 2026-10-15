@@ -94,3 +94,24 @@
 - **Internal dependencies**: Step 4 (Design the Website Using Cobalt as Inspiration)
 - **External dependencies**: Sass compiler (provided by the Angular CLI build pipeline)
 - **Notes**: Apply nesting consistently but avoid invalid over-nesting; keep `:host`, media queries, keyframes, and pseudo-class nesting valid SCSS. If a linter is added later, update this spec and `AGENTS.md` conventions accordingly.
+
+# Step 6
+# Status: [DONE]
+## Add Drag-and-Drop Image Upload to Selector Zone
+
+- **Goal**: Allow users to upload an image by dragging and dropping it onto the existing upload selector zone, using the same validation, feedback, and loading behavior as the click-to-upload file input.
+- **Scope**:
+  - In scope: handling `dragenter`, `dragover`, `dragleave`, and `drop` events on the `.upload-zone` element; providing clear visual feedback while a file is being dragged over the zone; validating the dropped file's extension against the existing accepted-formats list; loading a valid image into the crop frame; displaying the existing validation error message for unsupported files; preventing default browser drag-and-drop behavior.
+  - Out of scope: dropping files onto the crop frame, multi-file or folder upload, drag-and-drop reordering, clipboard paste uploads, server-side upload, and changes to the crop/pan behavior.
+- **Acceptance Criteria**:
+  1. The `.upload-zone` accepts a dropped image file and loads it into the crop frame exactly like the existing file input.
+  2. Dragging one or more files over the upload zone applies a visible active/drag-over style (e.g., dashed border color change, background tint) and prevents the browser's default behavior.
+  3. Dropping a file with an unsupported extension shows the existing validation error and does not load an image.
+  4. Dropping a valid image resets any previous error message and updates the file input value/state consistently.
+  5. The drag-over visual feedback is removed when the drag leaves the zone or after a drop completes.
+  6. The existing click-to-upload behavior continues to work unchanged.
+  7. Styling changes follow the established design system and BEM/SCSS nesting conventions.
+- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.scss`, `SPECS/design-system.md`
+- **Internal dependencies**: Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention)
+- **External dependencies**: Angular framework, HTML5 Drag and Drop API, HTML5 File API, HTML5 FileReader API
+- **Notes**: Reuse the existing `ACCEPTED_EXTENSIONS` constant and `onFileSelected` validation logic where possible. Consider using a small CSS modifier class (e.g., `.upload-zone--active`) for the drag-over state, nested under `.upload-zone` per the BEM convention.
