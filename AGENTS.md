@@ -14,7 +14,7 @@
 
 - **Framework**: Angular 22.2.0
 - **Language**: TypeScript 6.0.2
-- **Styling**: SASS (not CSS)
+- **Styling**: SCSS (not CSS)
 - **Build Tool**: Angular CLI / `@angular/build`
 - **Test Runner**: Vitest 5.x (configured via Angular CLI)
 - **Package Manager**: npm 11.19.0
@@ -37,7 +37,7 @@ carousel-cropper/
 │   ├── app/              # Components, services, and app logic
 │   ├── index.html        # Main HTML entry point
 │   ├── main.ts           # Application bootstrap
-│   └── styles.scss       # Global SASS styles
+│   └── styles.scss       # Global SCSS styles
 └── SPECS/                # Development specifications and step plans
 ```
 
@@ -76,7 +76,7 @@ ng generate component component-name
 
 ## Conventions
 
-- **Styling**: Use SASS (`.scss`) for all styles. Do not introduce plain CSS files unless explicitly requested.
+- **Styling**: Use SCSS (`.scss`) for all styles. Do not introduce plain CSS files unless explicitly requested.
 - **Components**: Prefer standalone Angular components generated via `ng generate`.
 - **Formatting**: Follow `.editorconfig` and `.prettierrc` settings. Prettier is available as a dev dependency.
 - **Tests**: Tests use Vitest through the Angular CLI test builder. Keep unit tests alongside the files they test.
@@ -84,7 +84,7 @@ ng generate component component-name
 
 ## Important Notes
 
-- Step 1 (initialize Angular project with SASS) is complete.
+- Step 1 (initialize Angular project with SCSS) is complete.
 - Step 2 (initialize `AGENTS.md`) is complete once this file exists at the repository root.
 - Do not modify application source files when maintaining this documentation unless explicitly instructed.
 - When adding new features, refer to `SPECS/development-steps.md` for the planned development roadmap.

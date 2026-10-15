@@ -2,7 +2,7 @@
 # Status: [DONE]
 ## Initialize Angular Project
 
-- **Goal**: Initialize a new Angular project named "Carousel Cropper" using the latest stable Angular version compatible with Node 26.7.0. The template used MUST be SASS instead of CSS. The project MUST be stored at the root folder of this reporitory.
+- **Goal**: Initialize a new Angular project named "Carousel Cropper" using the latest stable Angular version compatible with Node 26.7.0. The template used MUST be SCSS instead of CSS. The project MUST be stored at the root folder of this reporitory.
 - **Scope**: 
   - In scope: installing or updating the Angular CLI globally, creating the Angular workspace with the project name "Carousel Cropper", ensuring the generated project builds and serves without errors.
   - Out of scope: implementing carousel or image-cropping features, custom styling, and additional tests beyond what the Angular CLI generates by default.
@@ -11,7 +11,7 @@
   2. The project uses the latest stable Angular version that supports Node 26.7.0.
   3. `ng build` completes successfully with no errors.
   4. `ng serve` starts the development server without errors.
-  5. SASS is used in the project
+  5. SCSS is used in the project
   6. The project is stored at the root folder, the angular files `angular.json`, `package.json`, etc, are next to current `LICENSE` file.
 - **Related Files**: `angular.json`, `package.json`, `tsconfig.json`, `src/`
 - **Internal dependencies**: None
@@ -51,7 +51,7 @@
   4. The user can drag/pan the image within the crop frame to choose the visible portion.
   5. The cropped output is rendered at exactly 1080x1350 pixels and matches the region currently visible inside the crop frame.
   6. After cropping, the browser prompts the user to download the resulting image file.
-- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.sass`
+- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.scss`
 - **Internal dependencies**: Step 1 (Initialize Angular Project)
 - **External dependencies**: Angular framework, HTML5 File API, HTML5 Canvas API
 - **Notes**: The exact list of accepted extensions and output format/quality should be finalized before implementation. This step defines the first user-facing feature of the Carousel Cropper app.

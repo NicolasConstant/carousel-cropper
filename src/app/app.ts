@@ -7,7 +7,7 @@ const OUTPUT_HEIGHT = 1350;
 @Component({
   imports: [],
   selector: 'app-root',
-  styleUrl: './app.sass',
+  styleUrl: './app.scss',
   templateUrl: './app.html',
 })
 export class App {
