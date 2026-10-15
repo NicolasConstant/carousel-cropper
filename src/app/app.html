@@ -118,9 +118,28 @@
 
         @if (hasImage()) {
           <div class="crop-container">
+            <div class="carousel-size">
+              <span class="carousel-size__label">Carousel size</span>
+              <div class="carousel-size__options" role="radiogroup" aria-label="Carousel size">
+                @for (size of carouselSizes; track size) {
+                  <button
+                    type="button"
+                    class="carousel-size__option"
+                    [class.carousel-size__option--active]="carouselSize() === size"
+                    [attr.aria-checked]="carouselSize() === size"
+                    role="radio"
+                    (click)="setCarouselSize(size)"
+                  >
+                    {{ size }}
+                  </button>
+                }
+              </div>
+            </div>
+
             <div
               #frame
               class="crop-frame"
+              [style.--carousel-size]="carouselSize()"
               (mousedown)="onMouseDown($event)"
               (touchstart)="onTouchStart($event)"
               (window:mousemove)="onMouseMove($event)"
@@ -153,7 +172,7 @@
                 Choose another image
               </button>
               <button type="button" class="button button--primary" (click)="downloadCrop()">
-                Download crop
+                {{ carouselSize() === 1 ? 'Download crop' : 'Download carousel' }}
               </button>
             </div>
           </div>

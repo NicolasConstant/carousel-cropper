@@ -1,8 +1,11 @@
 import { Component, ElementRef, signal, viewChild } from '@angular/core';
+import JSZip from 'jszip';
 
 const ACCEPTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp'];
 const OUTPUT_WIDTH = 1080;
 const OUTPUT_HEIGHT = 1350;
+const MIN_CAROUSEL_SIZE = 1;
+const MAX_CAROUSEL_SIZE = 5;
 
 @Component({
   imports: [],
@@ -13,11 +16,16 @@ const OUTPUT_HEIGHT = 1350;
 export class App {
   protected readonly acceptedExtensions = ACCEPTED_EXTENSIONS.join(',');
   protected readonly acceptedExtensionsDisplay = ACCEPTED_EXTENSIONS.join(', ');
+  protected readonly carouselSizes = Array.from(
+    { length: MAX_CAROUSEL_SIZE - MIN_CAROUSEL_SIZE + 1 },
+    (_, i) => i + MIN_CAROUSEL_SIZE
+  );
   protected readonly currentYear = new Date().getFullYear();
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly imageUrl = signal<string | null>(null);
   protected readonly hasImage = signal(false);
   protected readonly isDragOver = signal(false);
+  protected readonly carouselSize = signal(MIN_CAROUSEL_SIZE);
 
   private readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
   private readonly frame = viewChild.required<ElementRef<HTMLDivElement>>('frame');
@@ -103,6 +111,7 @@ export class App {
     reader.onload = () => {
       this.imageUrl.set(reader.result as string);
       this.hasImage.set(true);
+      this.carouselSize.set(MIN_CAROUSEL_SIZE);
     };
     reader.readAsDataURL(file);
   }
@@ -112,20 +121,35 @@ export class App {
       const img = this.image().nativeElement;
       this.naturalWidth = img.naturalWidth;
       this.naturalHeight = img.naturalHeight;
-
-      const frameEl = this.frame().nativeElement;
-      const frameWidth = frameEl.clientWidth;
-      const frameHeight = frameEl.clientHeight;
-
-      this.displayScale = Math.max(
-        frameWidth / this.naturalWidth,
-        frameHeight / this.naturalHeight
-      );
-      this.displayX = (frameWidth - this.naturalWidth * this.displayScale) / 2;
-      this.displayY = (frameHeight - this.naturalHeight * this.displayScale) / 2;
-
-      this.updateImageTransform();
+      this.fitImageToFrame();
     });
+  }
+
+  setCarouselSize(size: number): void {
+    if (size < MIN_CAROUSEL_SIZE || size > MAX_CAROUSEL_SIZE || size === this.carouselSize()) {
+      return;
+    }
+
+    this.carouselSize.set(size);
+
+    if (this.hasImage() && this.naturalWidth > 0 && this.naturalHeight > 0) {
+      requestAnimationFrame(() => this.fitImageToFrame());
+    }
+  }
+
+  private fitImageToFrame(): void {
+    const frameEl = this.frame().nativeElement;
+    const frameWidth = frameEl.clientWidth;
+    const frameHeight = frameEl.clientHeight;
+
+    this.displayScale = Math.max(
+      frameWidth / this.naturalWidth,
+      frameHeight / this.naturalHeight
+    );
+    this.displayX = (frameWidth - this.naturalWidth * this.displayScale) / 2;
+    this.displayY = (frameHeight - this.naturalHeight * this.displayScale) / 2;
+
+    this.updateImageTransform();
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -201,11 +225,24 @@ export class App {
     img.style.transform = `translate(${this.displayX}px, ${this.displayY}px)`;
   }
 
-  downloadCrop(): void {
+  async downloadCrop(): Promise<void> {
     if (!this.hasImage()) {
       return;
     }
 
+    const img = this.image().nativeElement;
+    const frameEl = this.frame().nativeElement;
+    const panelCount = this.carouselSize();
+
+    if (panelCount === 1) {
+      this.downloadSingleCrop(img, frameEl);
+      return;
+    }
+
+    await this.downloadCarouselZip(img, frameEl, panelCount);
+  }
+
+  private downloadSingleCrop(img: HTMLImageElement, frameEl: HTMLElement): void {
     const canvas = this.canvas().nativeElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -214,9 +251,6 @@ export class App {
 
     canvas.width = OUTPUT_WIDTH;
     canvas.height = OUTPUT_HEIGHT;
-
-    const img = this.image().nativeElement;
-    const frameEl = this.frame().nativeElement;
 
     const sourceX = -this.displayX / this.displayScale;
     const sourceY = -this.displayY / this.displayScale;
@@ -241,10 +275,66 @@ export class App {
     link.click();
   }
 
+  private async downloadCarouselZip(
+    img: HTMLImageElement,
+    frameEl: HTMLElement,
+    panelCount: number
+  ): Promise<void> {
+    const canvas = this.canvas().nativeElement;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    canvas.width = OUTPUT_WIDTH;
+    canvas.height = OUTPUT_HEIGHT;
+
+    const panelSourceWidth = frameEl.clientWidth / panelCount / this.displayScale;
+    const panelSourceHeight = frameEl.clientHeight / this.displayScale;
+    const baseSourceX = -this.displayX / this.displayScale;
+    const baseSourceY = -this.displayY / this.displayScale;
+
+    const zip = new JSZip();
+    const blobPromises = Array.from({ length: panelCount }, (_, index) => {
+      return new Promise<Blob | null>((resolve) => {
+        const sourceX = baseSourceX + index * panelSourceWidth;
+        ctx.clearRect(0, 0, OUTPUT_WIDTH, OUTPUT_HEIGHT);
+        ctx.drawImage(
+          img,
+          sourceX,
+          baseSourceY,
+          panelSourceWidth,
+          panelSourceHeight,
+          0,
+          0,
+          OUTPUT_WIDTH,
+          OUTPUT_HEIGHT
+        );
+        canvas.toBlob((blob) => resolve(blob), 'image/png');
+      });
+    });
+
+    const blobs = await Promise.all(blobPromises);
+    blobs.forEach((blob, index) => {
+      if (blob) {
+        zip.file(`carousel-${index + 1}.png`, blob);
+      }
+    });
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const zipUrl = URL.createObjectURL(zipBlob);
+    const link = document.createElement('a');
+    link.download = 'carousel.zip';
+    link.href = zipUrl;
+    link.click();
+    URL.revokeObjectURL(zipUrl);
+  }
+
   private resetImage(): void {
     this.imageUrl.set(null);
     this.hasImage.set(false);
     this.naturalWidth = 0;
     this.naturalHeight = 0;
+    this.carouselSize.set(MIN_CAROUSEL_SIZE);
   }
 }

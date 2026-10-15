@@ -134,3 +134,26 @@
 - **Internal dependencies**: Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 6 (Add Drag-and-Drop Image Upload to Selector Zone)
 - **External dependencies**: Angular framework, HTML5 File API
 - **Notes**: The close button should be visually distinct and not obstruct the crop area. Consider an icon-only circular button styled with the existing color tokens, and place it absolutely within the crop frame container.
+
+# Step 8
+# Status: [DONE]
+## Add Carousel Size Selection and ZIP Export
+
+- **Goal**: Allow users to choose a carousel size from 1 to 5 panels after loading an image, position the image across the combined workspace, and download all resulting 1080×1350 panels as a single ZIP file.
+- **Scope**:
+  - In scope: adding a carousel size selector (sizes 1–5), expanding the crop workspace to the combined width (1080×1350 up to 5400×1350), panning the image across the full workspace, splitting the final composition into N separate 1080×1350 images, packaging those images into a ZIP archive, and triggering a browser download.
+  - Out of scope: server-side processing or storage, individual panel downloads, animated carousel previews, social media platform integrations, and image filters or transformations beyond positioning.
+- **Acceptance Criteria**:
+  1. After an image is loaded, a carousel size selector is visible with options 1 through 5.
+  2. The default selected size is 1, matching the current single-crop behavior.
+  3. Selecting size N expands the crop workspace to a width of N × 1080 pixels while preserving the 1080×1350 aspect ratio per panel.
+  4. The user can drag/pan the image across the entire combined workspace.
+  5. The cropped output is split into N separate 1080×1350 pixel images, one per panel.
+  6. The N images are packaged into a single ZIP file and downloaded via the browser.
+  7. The images inside the ZIP are named in a clear sequence (e.g., carousel-1.png, carousel-2.png, …).
+  8. Changing the carousel size resets or adjusts the image position appropriately without errors.
+  9. Existing features (file input, drag-and-drop upload, close button, design system, BEM nesting) continue to work unchanged.
+- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.scss`, `SPECS/design-system.md`
+- **Internal dependencies**: Step 1 (Initialize Angular Project), Step 3 (Image Selection and Crop to 1080x1350), Step 4 (Design the Website Using Cobalt as Inspiration), Step 5 (Enforce SCSS BEM Nesting Convention), Step 6 (Add Drag-and-Drop Image Upload to Selector Zone), Step 7 (Add Close Button to Crop Frame)
+- **External dependencies**: Angular framework, HTML5 Canvas API, HTML5 File API, JSZip library
+- **Notes**: The combined workspace for size 5 is 5400×1350 pixels. Consider a responsive display strategy for very wide workspaces (e.g., scaling the preview while keeping output resolution fixed). The exact selector control style should follow the established design system; a segmented button group is recommended. The output image format and quality should be finalized before implementation.
