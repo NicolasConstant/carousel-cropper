@@ -35,3 +35,23 @@
 - **Internal dependencies**: Step 1 (Initialize Angular Project)
 - **External dependencies**: opencode CLI/tool with the `/init` command
 - **Notes**: This step documents agent-specific context. After completion, future agent tasks can reference `AGENTS.md` for project conventions. This step must not modify any application source files.
+
+# Step 3
+# Status: [DONE]
+## Image Selection and Crop to 1080x1350
+
+- **Goal**: Allow users to select an image from their device, reposition it within a fixed 1080x1350 crop frame, and download the resulting cropped image.
+- **Scope**: 
+  - In scope: file input on the main page, extension validation, displaying the selected image in a crop frame, drag-to-reposition the image within the 1080x1350 frame, generating the cropped output, and triggering a browser download prompt.
+  - Out of scope: server upload or storage, editing beyond repositioning, multiple image support, advanced filters or transformations, and social-media carousel export.
+- **Acceptance Criteria**:
+  1. The main page provides a file input that accepts common image formats (e.g., `.jpg`, `.jpeg`, `.png`, `.webp`, `.gif`, `.bmp`).
+  2. Selecting a file with a non-image or unsupported extension shows a clear validation error to the user.
+  3. The selected image is displayed inside a visible crop frame sized to a 1080x1350 aspect ratio.
+  4. The user can drag/pan the image within the crop frame to choose the visible portion.
+  5. The cropped output is rendered at exactly 1080x1350 pixels and matches the region currently visible inside the crop frame.
+  6. After cropping, the browser prompts the user to download the resulting image file.
+- **Related Files**: `src/app/app.html`, `src/app/app.ts`, `src/app/app.sass`
+- **Internal dependencies**: Step 1 (Initialize Angular Project)
+- **External dependencies**: Angular framework, HTML5 File API, HTML5 Canvas API
+- **Notes**: The exact list of accepted extensions and output format/quality should be finalized before implementation. This step defines the first user-facing feature of the Carousel Cropper app.
